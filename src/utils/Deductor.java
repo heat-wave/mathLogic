@@ -26,7 +26,7 @@ public class Deductor {
             }
             else {
                 if (curExp.equals(alpha)) {
-                    result.addAll(Proofs.selfImpl(alpha));
+                    result.addAll(Proofs.getSelfCons(alpha));
                 }
                 else if (resultsMP.containsKey(curExp)) {
                     Expression deltaJ = proof.get(resultsMP.get(curExp).fst);

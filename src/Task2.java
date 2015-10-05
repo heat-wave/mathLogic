@@ -1,8 +1,6 @@
 import expression.Expression;
 import expression.Implication;
-import utils.Deductor;
-import utils.Parser;
-import utils.ProofAnnotator;
+import utils.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,10 +10,12 @@ import java.util.HashSet;
 import java.util.Scanner;
 
 /**
- * Created by baba_beda on 10/5/15.
+ * Created by heat_wave on 10/5/15.
  */
 public class Task2 {
     public static void main(String[] args) {
+        Axioms.parseAxioms();
+        Proofs.parseProofs();
         new Task2().solve();
     }
     public void solve() {

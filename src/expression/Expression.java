@@ -1,5 +1,7 @@
 package expression;
 
+import com.sun.istack.internal.Pool;
+
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,8 +11,7 @@ import java.util.HashSet;
  */
 public class Expression {
     private HashSet<String> variables = new HashSet<>();
-    private HashMap<String, Integer> variablesAux = new HashMap<>();
-
+    public HashMap<String, Integer> realVariables;
     @Override
     public boolean equals(Object other) {
         if (this instanceof Implication && other instanceof Implication) {
@@ -57,6 +58,59 @@ public class Expression {
         return 0;
     }
 
+    private void setRealVariables(HashMap<String, Integer> realVariables) {
+        this.realVariables = realVariables;
+        if (this instanceof Implication) {
+            ((Implication) this).left.setRealVariables(this.realVariables);
+            ((Implication) this).right.setRealVariables(this.realVariables);
+        }
+        if (this instanceof Or) {
+            ((Or) this).left.setRealVariables(this.realVariables);
+            ((Or) this).right.setRealVariables(this.realVariables);
+        }
+        if (this instanceof And) {
+            ((And) this).left.setRealVariables(this.realVariables);
+            ((And) this).right.setRealVariables(this.realVariables);
+        }
+        if (this instanceof Not) {
+            ((Not) this).subExpr.setRealVariables(this.realVariables);
+        }
+    }
+
+    public HashMap<String, Integer> getRealVariables() {
+        if (realVariables == null) {
+            getVariables();
+            int i = 0;
+            realVariables = new HashMap<>();
+            for (String s : variables) {
+                realVariables.put(s, i++);
+            }
+            this.setRealVariables(realVariables);
+        }
+        return realVariables;
+    }
+
+    private HashSet<String> getVariables() {
+        if (this instanceof Implication) {
+            variables.addAll(((Implication) this).left.getVariables());
+            variables.addAll(((Implication) this).right.getVariables());
+        }
+        else if (this instanceof Or) {
+            variables.addAll(((Or) this).left.getVariables());
+            variables.addAll(((Or) this).right.getVariables());
+        }
+        else if (this instanceof And) {
+            variables.addAll(((And) this).left.getVariables());
+            variables.addAll(((And) this).right.getVariables());
+        }
+        else if (this instanceof Not) {
+            variables.addAll(((Not) this).subExpr.getVariables());
+        }
+        else {
+            variables.add(((Variable) this).var);
+        }
+        return variables;
+    }
     private boolean isAxiom(int number) throws ParseException {
         switch(number) {
             case 1:

@@ -14,6 +14,8 @@ public class ProofAnnotator {
      public static ArrayList<String> annotateProof(ArrayList<Expression> proof, HashSet<Expression> assumptions) throws ParseException {
          HashMap<Expression, Integer> mapProof = new HashMap<>();
          HashMap<Expression, Integer> neededAlpha = new HashMap<>();
+
+         // resultsMP: key - beta, value - (index of alpha, index of alpha->beta)
          HashMap<Expression, Pair> resultsMP = new HashMap<>();
          ArrayList<String> result = new ArrayList<>();
          for (int i = 0; i < proof.size(); i++) {
