@@ -1,7 +1,7 @@
 package expression;
 
 /**
- * Created by baba_beda on 10/4/15.
+ * Created by heat_wave on 10/4/15.
  */
 public class Variable extends Expression {
     public String var;
@@ -16,13 +16,17 @@ public class Variable extends Expression {
 
         Variable variable = (Variable) o;
 
-        if (var != null ? !var.equals(variable.var) : variable.var != null) return false;
+        return !(var != null ? !var.equals(variable.var) : variable.var != null);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
         return var != null ? var.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return var;
     }
 }

@@ -1,7 +1,7 @@
 package expression;
 
 /**
- * Created by baba_beda on 10/4/15.
+ * Created by heat_wave on 10/4/15.
  */
 public class Not extends Expression {
     public Expression subExpr;
@@ -17,13 +17,17 @@ public class Not extends Expression {
 
         Not not = (Not) o;
 
-        if (!subExpr.equals(not.subExpr)) return false;
+        return subExpr.equals(not.subExpr);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
         return subExpr.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "!" + "(" + subExpr.toString() + ")";
     }
 }

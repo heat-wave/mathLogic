@@ -1,7 +1,7 @@
 package expression;
 
 /**
- * Created by baba_beda on 10/4/15.
+ * Created by heat_wave on 10/4/15.
  */
 public class Or  extends Expression {
     public Expression left, right;
@@ -17,10 +17,8 @@ public class Or  extends Expression {
 
         Or or = (Or) o;
 
-        if (!left.equals(or.left)) return false;
-        if (!right.equals(or.right)) return false;
+        return left.equals(or.left) && right.equals(or.right);
 
-        return true;
     }
 
     @Override
@@ -28,5 +26,10 @@ public class Or  extends Expression {
         int result = left.hashCode();
         result = 31 * result + right.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + left.toString() + "|" + right.toString() + ")";
     }
 }
