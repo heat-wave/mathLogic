@@ -36,7 +36,10 @@ public class Task2 {
                 String statement = in.next();
                 proof.add(Parser.parse(statement.replace("->", ">")));
             }
-            System.out.println(" |- " + (new Implication(alpha, proof.get(proof.size() - 1))).toString());
+            if (!assumptions.isEmpty()) {
+                System.out.print(" ");
+            }
+            System.out.println("|- " + (new Implication(alpha, proof.get(proof.size() - 1))).toString());
             ProofAnnotator.annotateProof(Deductor.completeProof(alpha, assumptions, proof), assumptions).forEach(System.out::println);
         } catch (FileNotFoundException | ParseException e) {
             e.printStackTrace();
