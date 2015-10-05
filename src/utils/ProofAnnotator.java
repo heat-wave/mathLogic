@@ -50,15 +50,6 @@ public class ProofAnnotator {
              }
              mapProof.put(curExp, i);
          }
-         result.add("Proof is correct");
          return result;
      }
-    static class Pair {
-        int fst, snd;
-
-        public Pair(int fst, int snd) {
-            this.fst = fst;
-            this.snd = snd;
-        }
-    }
 }

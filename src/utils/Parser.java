@@ -121,7 +121,7 @@ public class Parser {
         return new Variable(token);
     }
 
-    public ArrayList<Expression> parseAlpha(String assumption) throws ParseException {
+    public static ArrayList<Expression> parseAlpha(String assumption) throws ParseException {
         ArrayList<Expression> alpha = new ArrayList<>();
         String curAss = "";
         int position = assumption.indexOf("|-");
