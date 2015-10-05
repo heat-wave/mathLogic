@@ -12,50 +12,50 @@ import java.util.StringTokenizer;
  */
 public class Parser {
     // available operators
-    private final String OPERATORS = ">|&!";
+    private static final String OPERATORS = ">|&!";
 
     // available words
-    private final String WORDS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final String WORDS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     // temporary stack, that holds operators and brackets
-    private Stack<String> stackOperations = new Stack<>();
+    private static Stack<String> stackOperations = new Stack<>();
 
     // stack for holding expressions converted to reversed polish notation (holds current parsed expression)
-    private Stack<String> stackRPN = new Stack<>();
+    private static Stack<String> stackRPN = new Stack<>();
 
     // expression that represents expression-tree of current statement
-    Expression expr;
+    static Expression expr;
 
 
-    private boolean isWord(String token) {
+    private static boolean isWord(String token) {
         return WORDS.contains(token);
     }
 
-    private boolean isOpenBracket(String token) {
+    private static boolean isOpenBracket(String token) {
         return token.equals("(");
     }
 
-    private boolean isCloseBracket(String token) {
+    private static boolean isCloseBracket(String token) {
         return token.equals(")");
     }
 
-    private boolean isOperator(String token) {
+    private static boolean isOperator(String token) {
         return OPERATORS.contains(token);
     }
 
-    private byte getPrecedence(String token) {
+    private static byte getPrecedence(String token) {
         return (byte) OPERATORS.indexOf(token);
     }
 
-    private boolean isLeftAssoc(String token) {
+    private static boolean isLeftAssoc(String token) {
         return (token.equals("&") || token.equals("|"));
     }
 
-    private boolean isBinary(String token) {
+    private static boolean isBinary(String token) {
         return (!token.equals("!"));
     }
 
-    public Expression parse(String expression) throws ParseException {
+    public static Expression parse(String expression) throws ParseException {
         // cleaning stacks
         stackOperations.clear();
         stackRPN.clear();
@@ -97,7 +97,7 @@ public class Parser {
         return expr;
     }
 
-    public Expression parseExpression() {
+    private static Expression parseExpression() {
         String token = stackRPN.pop();
         if (token.equals(">")) {
             Expression right = parseExpression();
