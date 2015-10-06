@@ -2,7 +2,6 @@ package utils;
 
 import expression.*;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,7 +29,7 @@ public class Prover {
         }
     }
 
-    public static void prove(Expression expression) throws ParseException {
+    public static ArrayList<Expression> prove(Expression expression) throws ParseException {
         int varCount = expression.getRealVariables().size();
         int range = 1 << (varCount);
         ArrayList<Expression>[] proofs = new ArrayList[range];
@@ -42,7 +41,7 @@ public class Prover {
                 for (Map.Entry<String, Integer> entry : expression.getRealVariables().entrySet()) {
                     System.out.print(entry.getKey() + "=" + (binary.charAt(binary.length() - entry.getValue() - 1) == '1' ? "T " : "F "));
                 }
-                return;
+                return null;
             }
         }
         String[] variables = new String[varCount];
@@ -70,7 +69,7 @@ public class Prover {
             }
             step *= 2;
         }
-        ProofAnnotator.annotateProof(proofs[0], new HashSet<>()).forEach(System.out::println);
+        return proofs[0];
     }
 
     private static ArrayList<Expression> proveWithEstimate(Expression expression, int bitmask) {

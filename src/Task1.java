@@ -23,7 +23,7 @@ public class Task1 {
                 String statement = in.next();
                 proof.add(Parser.parse(statement.replace("->", ">")));
             }
-            ProofAnnotator.annotateProof(proof, new HashSet<>()).forEach(System.out::println);
+            ProofAnnotator.getAnnotatedProof(proof, new HashSet<>()).forEach(System.out::println);
         } catch (FileNotFoundException | ParseException e) {
             e.printStackTrace();
         }

@@ -4,6 +4,8 @@ import utils.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 /**
@@ -18,7 +20,10 @@ public class Task3 {
     public void solve() {
         try (Scanner in = new Scanner(new File("task3.in"))) {
             Expression expression = Parser.parse(in.next().replace("->", ">"));
-            Prover.prove(expression);
+            ArrayList<Expression> proof = Prover.prove(expression);
+            if (proof != null) {
+                ProofAnnotator.getAnnotatedProof(proof, new HashSet<>()).forEach(System.out::println);
+            }
         } catch (ParseException | FileNotFoundException e) {
             e.printStackTrace();
         }
