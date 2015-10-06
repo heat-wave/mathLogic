@@ -13,7 +13,7 @@ import java.util.HashSet;
 public class ProofAnnotator {
      public static ArrayList<String> annotateProof(ArrayList<Expression> proof, HashSet<Expression> assumptions) throws ParseException {
          HashMap<Expression, Integer> mapProof = new HashMap<>();
-         HashMap<Expression, Integer> neededAlpha = new HashMap<>();
+         HashMap<Expression, HashSet<Integer>> neededAlpha = new HashMap<>();
 
          // resultsMP: key - beta, value - (index of alpha, index of alpha->beta)
          HashMap<Expression, Pair> resultsMP = new HashMap<>();
@@ -43,11 +43,16 @@ public class ProofAnnotator {
                      resultsMP.put(beta, new Pair(mapProof.get(alpha), i));
                  }
                  else {
-                     neededAlpha.put(alpha, i);
+                     if (!neededAlpha.containsKey(alpha)) {
+                         neededAlpha.put(alpha, new HashSet<>());
+                     }
+                     neededAlpha.get(alpha).add(i);
                  }
              }
              if (neededAlpha.containsKey(curExp)) {
-                 resultsMP.put(((Implication)proof.get(neededAlpha.get(curExp))).right, new Pair (i, neededAlpha.get(curExp)));
+                 for (int k : neededAlpha.get(curExp)) {
+                     resultsMP.put(((Implication) proof.get(k)).right, new Pair(i, k));
+                 }
                  neededAlpha.remove(curExp);
              }
              mapProof.put(curExp, i);
