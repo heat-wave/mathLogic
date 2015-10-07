@@ -12,11 +12,13 @@ import java.util.HashSet;
  */
 public class Deductor {
     public static ArrayList<Expression> completeProof (Expression alpha, HashSet<Expression> assumptions, ArrayList<Expression> proof) throws ParseException {
+        // Deductor.completeProof is actually pretty similar to ProofAnnotator.annotateProof
         ArrayList<Expression> result = new ArrayList<>();
         HashMap<Expression, Integer> mapProof = new HashMap<>();
         HashMap<Expression, Integer> neededAlpha = new HashMap<>();
         HashMap<Expression, Pair> resultsMP = new HashMap<>();
         for (int i = 0; i < proof.size(); i++) {
+            // all actions depending on pattern of expression are being done according to the Theorem of Deduction (Gamma, alpha |- beta => Gamma |- alpha->beta)
             Expression curExp = proof.get(i);
             int a = curExp.isAxiom();
             if (a > 0 || assumptions.contains(curExp)) {

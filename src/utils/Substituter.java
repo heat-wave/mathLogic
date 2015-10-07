@@ -6,6 +6,8 @@ import java.util.HashMap;
  * Created by heat_wave on 10/5/15.
  */
 public class Substituter {
+    // in axioms and template proofs we often need to substitute variables with custom expressions
+    // so who can do it better that substituter
     public static Expression substitute(Expression expression, HashMap<String, Expression> variables) {
         if (expression instanceof Implication) {
             return new Implication(substitute(((Implication) expression).left, variables), substitute(((Implication) expression).right, variables));

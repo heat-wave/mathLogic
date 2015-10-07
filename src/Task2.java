@@ -21,9 +21,12 @@ public class Task2 {
     public void solve() {
         try (Scanner in = new Scanner(new File("task2.in"))) {
             ArrayList<Expression> proof = new ArrayList<>();
+            // firstly we need to get and parse context
             String assumption = in.next();
             ArrayList<Expression> assumptionsAux = Parser.parseAlpha(assumption);
+            // alpha - expression, which we're going to "deduct"
             Expression alpha = assumptionsAux.get(assumptionsAux.size() - 1);
+            // assumptions - whole left context
             HashSet<Expression> assumptions = new HashSet<>();
             for (int i = 0; i < assumptionsAux.size() - 1; i++) {
                 assumptions.add(assumptionsAux.get(i));
@@ -32,6 +35,7 @@ public class Task2 {
                 }
                 System.out.print(assumptionsAux.get(i).toString());
             }
+            // then, we are ready to read proof, that we need to complete
             while (in.hasNext()) {
                 String statement = in.next();
                 proof.add(Parser.parse(statement.replace("->", ">")));
@@ -40,7 +44,8 @@ public class Task2 {
                 System.out.print(" ");
             }
             System.out.println("|- " + (new Implication(alpha, proof.get(proof.size() - 1))).toString());
-            Deductor.completeProof(alpha, assumptions, proof).forEach(System.out::println);
+            // let's do deduction and print annotated proof
+            ProofAnnotator.getAnnotatedProof(Deductor.completeProof(alpha, assumptions, proof), assumptions).forEach(System.out::println);
         } catch (FileNotFoundException | ParseException e) {
             e.printStackTrace();
         }

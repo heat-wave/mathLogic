@@ -14,7 +14,7 @@ public class Parser {
     // available operators
     private static final String OPERATORS = ">|&!";
 
-    // available words
+    // available words in propositional logic/predicats
     private static final String WORDS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     // temporary stack, that holds operators and brackets

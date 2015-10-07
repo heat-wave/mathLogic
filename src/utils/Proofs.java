@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
  * Created by heat_wave on 10/5/15.
  */
 public class Proofs {
+    // I don't know better way to hardcode these template proofs
+    // so I just parse them from corresponding files and substitute variables with custom expressions
     static ArrayList<Expression> addDoubleNot;
     static ArrayList<Expression> contraposition;
     static ArrayList<Expression> selfCons;

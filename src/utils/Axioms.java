@@ -23,6 +23,9 @@ public class Axioms {
             e.printStackTrace();
         }
     }
+
+    // we want to have axioms and template proofs in similar conditions
+    // so we just get 'em from axioms.txt and substitute variables with custom expressions
     public static Expression axiom1(Expression alpha, Expression beta) {
         HashMap<String, Expression> variables = new HashMap<>();
         variables.put("A", alpha);

@@ -22,6 +22,7 @@ public class Task3 {
             Expression expression = Parser.parse(in.next().replace("->", ">"));
             ArrayList<Expression> proof = Prover.prove(expression);
             if (proof != null) {
+                // if we get proof == null, that means we have already printed wrong estimation, so we don't need to do anything else
                 ProofAnnotator.getAnnotatedProof(proof, new HashSet<>()).forEach(System.out::println);
             }
         } catch (ParseException | FileNotFoundException e) {
