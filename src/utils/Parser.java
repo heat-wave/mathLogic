@@ -11,11 +11,20 @@ import java.util.StringTokenizer;
  * Created by heat_wave on 10/3/15.
  */
 public class Parser {
-    // available operators
-    private static final String OPERATORS = ">|&!";
+    // available predicates
+    private static final String PREDICATES = "@?=";
+    
+    // available ariphmetic operators
+    private static final String ARIPHMETIC_OPERATORS = "+*'";
+    
+    // available logic operators
+    private static final String LOGIC_OPERATORS = ">|&!";
 
     // available words in propositional logic/predicats
     private static final String WORDS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    // available variables in predicats
+    private static final String VARIABLES = "abcdefghijklmnopqrstuvwxyz0123456789";
 
     // temporary stack, that holds operators and brackets
     private static Stack<String> stackOperations = new Stack<>();
@@ -30,6 +39,9 @@ public class Parser {
     private static boolean isWord(String token) {
         return WORDS.contains(token);
     }
+    private static boolean isPredicateVariable(String token) {
+        return VARIABLES.contains(token);
+    }
 
     private static boolean isOpenBracket(String token) {
         return token.equals("(");
@@ -39,20 +51,27 @@ public class Parser {
         return token.equals(")");
     }
 
-    private static boolean isOperator(String token) {
-        return OPERATORS.contains(token);
+    private static boolean isPredicate(String token) {
+        return PREDICATES.contains(token);
+    }
+
+    private static boolean isAriphmeticOperator(String token) {
+        return ARIPHMETIC_OPERATORS.contains(token);
+    }
+    private static boolean isLogicOperator(String token) {
+        return LOGIC_OPERATORS.contains(token);
     }
 
     private static byte getPrecedence(String token) {
-        return (byte) OPERATORS.indexOf(token);
+        return (byte) LOGIC_OPERATORS.indexOf(token);
     }
 
     private static boolean isLeftAssoc(String token) {
-        return (token.equals("&") || token.equals("|"));
+        return (token.equals("&") || token.equals("|")) || token.equals("+") || token.equals("*");
     }
 
     private static boolean isBinary(String token) {
-        return (!token.equals("!"));
+        return (!token.equals("!")&&!token.equals("'")&&!token.equals("@")&&!token.equals("?"));
     }
 
     public static Expression parse(String expression) throws ParseException {
@@ -60,7 +79,7 @@ public class Parser {
         stackOperations.clear();
         stackRPN.clear();
 
-        StringTokenizer stringTokenizer = new StringTokenizer(expression, OPERATORS + "()" + WORDS, true);
+        StringTokenizer stringTokenizer = new StringTokenizer(expression, LOGIC_OPERATORS + "()" + WORDS, true);
 
         while (stringTokenizer.hasMoreTokens()) {
             String token = stringTokenizer.nextToken();
@@ -81,8 +100,8 @@ public class Parser {
                     stackRPN.push(token);
                 }
             }
-            else if (isOperator(token)) {
-                while (!stackOperations.isEmpty() && isOperator(stackOperations.lastElement()) &&
+            else if (isLogicOperator(token)) {
+                while (!stackOperations.isEmpty() && isLogicOperator(stackOperations.lastElement()) &&
                         ((isLeftAssoc(token) && getPrecedence(token) <= getPrecedence(stackOperations.lastElement())) ||
                                 (!isLeftAssoc(token) && getPrecedence(token) < getPrecedence(stackOperations.lastElement())))) {
                     stackRPN.push(stackOperations.pop());
